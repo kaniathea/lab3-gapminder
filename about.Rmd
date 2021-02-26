@@ -1,0 +1,14 @@
+---
+title: "About"
+author: "Thea"
+date: "2/26/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## About
+
+This is the data population

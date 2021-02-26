@@ -1,0 +1,15 @@
+name: "our-website"
+navbar:
+  title: "Population Data"
+  left:
+    - text: "About"
+      href: about.html
+    - text: "Data"
+      href: data.html
+    - text: "Life Expectancy"
+      href: life_expectancy.html
+    - text: "Fertility"
+      href: fertility.html
+    - text: "Infant Mortality"
+      href: infant_mortality.html
+output_dir: "."
