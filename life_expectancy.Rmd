@@ -1,0 +1,30 @@
+---
+title: "Life Expectancy"
+author: "Thea"
+date: "2/26/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Life Expectancy
+
+```{r include=FALSE}
+library(dslabs)
+library(tidyverse)
+gapminder
+```
+
+```{r}
+gap2011 <- gapminder %>%
+  as_tibble() %>%
+  filter(year == 2011)
+```
+
+```{r, warning=FALSE}
+gap2011 %>%
+  ggplot(aes(x=gdp/population, y=life_expectancy, size=population, color=continent)) +
+  geom_point()
+```
