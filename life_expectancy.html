@@ -319,12 +319,11 @@ $(document).ready(function () {
 
 <div id="life-expectancy" class="section level2">
 <h2>Life Expectancy</h2>
-<pre class="r"><code>gap2011 &lt;- gapminder %&gt;%
-  as_tibble() %&gt;%
-  filter(year == 2011)</code></pre>
 <pre class="r"><code>gap2011 %&gt;%
   ggplot(aes(x=gdp/population, y=life_expectancy, size=population, color=continent)) +
-  geom_point()</code></pre>
+  geom_point() +
+  xlab(&quot;GDP per Population&quot;) +
+  ylab(&quot;Life Expectancy Rate&quot;)</code></pre>
 <p><img src="life_expectancy_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 

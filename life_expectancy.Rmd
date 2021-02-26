@@ -17,15 +17,17 @@ library(tidyverse)
 gapminder
 ```
 
-```{r}
+```{r, include=FALSE}
 gap2011 <- gapminder %>%
   as_tibble() %>%
   filter(year == 2011)
 ```
 
-```{r, warning=FALSE}
+```{r warning=FALSE}
 gap2011 %>%
   ggplot(aes(x=gdp/population, y=life_expectancy, size=population, color=continent)) +
-  geom_point()
+  geom_point() +
+  xlab("GDP per Population") +
+  ylab("Life Expectancy Rate")
 ```
 
