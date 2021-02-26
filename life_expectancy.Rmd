@@ -28,3 +28,4 @@ gap2011 %>%
   ggplot(aes(x=gdp/population, y=life_expectancy, size=population, color=continent)) +
   geom_point()
 ```
+
