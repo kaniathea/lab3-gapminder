@@ -1,6 +1,6 @@
-name: "our-website"
+name: "lab3-gapminder"
 navbar:
-  title: "Population Data"
+  title: "Gapminder"
   left:
     - text: "About"
       href: about.html
@@ -13,3 +13,9 @@ navbar:
     - text: "Infant Mortality"
       href: infant_mortality.html
 output_dir: "."
+output:
+  html_document:
+    theme: flatly
+    highlight: textmate
+    toc: true 
+    toc_float: true 
