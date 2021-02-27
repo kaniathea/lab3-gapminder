@@ -317,14 +317,17 @@ $(document).ready(function () {
 </div>
 
 
-<div id="life-expectancy-data-explore" class="section level2">
-<h2>Life Expectancy Data Explore</h2>
-<pre class="r"><code>ggplot(data=gap2011, aes(x=gdp/population, y=life_expectancy, size=population, color=continent)) +
+<div id="life-expectancy-v-per-capita-gdp" class="section level3">
+<h3>Life Expectancy v Per Capita GDP</h3>
+<pre class="r"><code>ggplot(data=gap2011, aes(x=life_expectancy, y=gdp/population, size=population, color=continent)) +
   geom_point() +
   xlab(&quot;Per Capita GDP&quot;) +
   ylab(&quot;Life Expectancy&quot;)</code></pre>
 <pre><code>## Warning: Removed 17 rows containing missing values (geom_point).</code></pre>
 <p><img src="life_expectancy_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="life-expectancy-per-continent" class="section level3">
+<h3>Life Expectancy Per Continent</h3>
 <pre class="r"><code>ggplot(data = gap2011, aes(x = continent, y = life_expectancy)) +
   geom_boxplot(aes(color=continent)) +
   xlab(&quot;Continent&quot;) +

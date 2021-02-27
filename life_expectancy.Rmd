@@ -21,17 +21,17 @@ gap2011 <- gapminder %>%
   filter(year == 2011)
 ```
 
-## Life Expectancy Data Explore
+### Life Expectancy v Per Capita GDP
 
 ```{r}
-ggplot(data=gap2011, aes(x=gdp/population, y=life_expectancy, size=population, color=continent)) +
+ggplot(data=gap2011, aes(x=life_expectancy, y=gdp/population, size=population, color=continent)) +
   geom_point() +
   xlab("Per Capita GDP") +
   ylab("Life Expectancy")
 ```
 
 
-
+### Life Expectancy Per Continent
 
 ```{r}
 ggplot(data = gap2011, aes(x = continent, y = life_expectancy)) +
