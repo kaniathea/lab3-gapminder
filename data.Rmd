@@ -1,6 +1,6 @@
 ---
-title: "data"
-author: "Thea"
+title: "Data"
+author: "Kania Thea Pradipta"
 date: "2/26/2021"
 output: html_document
 ---
@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Data
+## Gapminder Project Data
 
 ```{r message=FALSE, warning=FALSE, include=TRUE}
 library(dslabs)
