@@ -17,12 +17,15 @@
 <script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
 <style type="text/css">
@@ -114,33 +117,33 @@ summary {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 51px;
+  padding-top: 60px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 .section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 .section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 .section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 .section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 .section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 .dropdown-submenu {
   position: relative;
@@ -260,6 +263,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -267,6 +333,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -279,7 +355,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Population Data</a>
+      <a class="navbar-brand" href="index.html">Gapminder</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -322,235 +398,237 @@ $(document).ready(function () {
 <pre class="r"><code>library(dslabs)
 library(tidyverse)
 gapminder</code></pre>
-<pre><code>##                      country year infant_mortality life_expectancy fertility
-## 1                    Albania 1960           115.40           62.87      6.19
-## 2                    Algeria 1960           148.20           47.50      7.65
-## 3                     Angola 1960           208.00           35.98      7.32
-## 4        Antigua and Barbuda 1960               NA           62.97      4.43
-## 5                  Argentina 1960            59.87           65.39      3.11
-## 6                    Armenia 1960               NA           66.86      4.55
-## 7                      Aruba 1960               NA           65.66      4.82
-## 8                  Australia 1960            20.30           70.87      3.45
-## 9                    Austria 1960            37.30           68.75      2.70
-## 10                Azerbaijan 1960               NA           61.33      5.57
-## 11                   Bahamas 1960            51.00           62.00      4.50
-## 12                   Bahrain 1960           134.50           51.64      7.09
-## 13                Bangladesh 1960           176.30           46.20      6.73
-## 14                  Barbados 1960            69.50           61.80      4.33
-## 15                   Belarus 1960               NA           71.59      2.74
-## 16                   Belgium 1960            29.50           69.59      2.60
-## 17                    Belize 1960               NA           60.08      6.50
-## 18                     Benin 1960           186.90           38.29      6.28
-## 19                    Bhutan 1960           175.00           35.94      6.67
-## 20                   Bolivia 1960           173.40           43.77      6.70
-## 21    Bosnia and Herzegovina 1960           105.00           62.56      4.05
-## 22                  Botswana 1960           115.50           50.34      6.62
-## 23                    Brazil 1960           129.40           55.27      6.21
-## 24                    Brunei 1960            63.00           62.52      6.49
-## 25                  Bulgaria 1960            49.00           69.22      2.25
-## 26              Burkina Faso 1960           161.30           35.21      6.29
-## 27                   Burundi 1960           145.10           40.58      6.95
-## 28                  Cambodia 1960               NA           42.29      6.97
-## 29                  Cameroon 1960           166.90           43.46      5.65
-## 30                    Canada 1960            27.80           71.00      3.91
-## 31                Cape Verde 1960               NA           50.12      6.89
-## 32  Central African Republic 1960           165.50           37.43      5.84
-## 33                      Chad 1960               NA           40.95      6.25
-## 34                     Chile 1960           127.60           56.85      5.58
-## 35                     China 1960           190.00           30.53      3.99
-## 36                  Colombia 1960            89.30           58.03      6.81
-## 37                   Comoros 1960           200.00           44.04      6.79
-## 38          Congo, Dem. Rep. 1960           174.00           43.90      6.00
-## 39               Congo, Rep. 1960           110.60           48.25      5.88
-## 40                Costa Rica 1960            86.54           61.97      7.31
-## 41             Cote d&#39;Ivoire 1960           208.40           38.00      7.35
-## 42                   Croatia 1960            70.00           64.85      2.33
-## 43                      Cuba 1960            37.00           63.85      4.18
-## 44                    Cyprus 1960            30.00           69.72      3.50
-## 45            Czech Republic 1960            22.00           70.58      2.30
-## 46                   Denmark 1960            21.30           72.28      2.54
-## 47                  Djibouti 1960               NA           45.77      6.46
-## 48        Dominican Republic 1960           102.10           53.37      7.56
-## 49                   Ecuador 1960           121.40           54.09      6.69
-## 50                     Egypt 1960           209.60           48.31      6.63
-## 51               El Salvador 1960           126.20           52.02      6.73
-## 52         Equatorial Guinea 1960               NA           37.69      5.51
-## 53                   Eritrea 1960               NA           39.03      6.90
-## 54                   Estonia 1960            40.00           69.42      1.95
-## 55                  Ethiopia 1960           162.00           37.72      6.88
-## 56                      Fiji 1960            54.00           55.70      6.46
-## 57                   Finland 1960            21.90           69.03      2.71
-## 58                    France 1960            23.70           70.49      2.77
-## 59          French Polynesia 1960               NA           56.28      5.66
-## 60                     Gabon 1960               NA           38.83      4.38
-## 61                    Gambia 1960           148.40           35.70      5.57
-## 62                   Georgia 1960               NA           63.50      2.96
-## 63                   Germany 1960            34.00           69.26      2.41
-## 64                     Ghana 1960           125.10           46.34      6.75
-## 65                    Greece 1960            48.30           68.41      2.22
-## 66                 Greenland 1960               NA           61.49      7.25
-## 67                   Grenada 1960               NA           60.59      6.74
-## 68                 Guatemala 1960           146.00           46.51      6.53
-## 69                    Guinea 1960               NA           35.71      6.10
-## 70             Guinea-Bissau 1960               NA           43.14      5.83
-## 71                    Guyana 1960            67.70           59.08      5.67
-## 72                     Haiti 1960           194.80           42.10      6.32
-## 73                  Honduras 1960           140.90           47.71      7.46
-## 74          Hong Kong, China 1960               NA           67.45      5.16
-## 75                   Hungary 1960            53.40           68.13      2.05
-## 76                   Iceland 1960            17.50           74.22      4.13
-## 77                     India 1960           165.10           41.26      5.87
-## 78                 Indonesia 1960           148.40           45.01      5.67
-## 79                      Iran 1960           191.61           46.00      6.93
-## 80                      Iraq 1960           131.70           46.96      6.25
-## 81                   Ireland 1960            30.40           70.76      3.86
-## 82                    Israel 1960            32.00           68.55      3.84
-## 83                     Italy 1960            44.20           69.19      2.37
-## 84                   Jamaica 1960            62.00           65.91      5.42
-## 85                     Japan 1960            30.40           67.78      2.00
-## 86                    Jordan 1960           107.50           53.30      7.69
-## 87                Kazakhstan 1960               NA           58.91      4.56
-## 88                     Kenya 1960           118.60           47.42      7.95
-## 89                  Kiribati 1960               NA           45.84      6.95
-## 90               South Korea 1960            80.20           53.02      6.16
-## 91                    Kuwait 1960           101.60           62.15      7.25
-## 92           Kyrgyz Republic 1960               NA           56.09      5.17
-## 93                       Lao 1960           155.00           42.13      5.96
-## 94                    Latvia 1960            35.00           70.37      1.90
-## 95                   Lebanon 1960            57.60           62.90      5.74
-## 96                   Lesotho 1960           143.30           47.02      5.84
-## 97                   Liberia 1960           212.00           35.24      6.41
-## 98                     Libya 1960           164.50           44.59      7.54
-## 99                 Lithuania 1960            52.00           70.33      2.55
-## 100               Luxembourg 1960            33.00           68.99      2.35
-## 101             Macao, China 1960               NA           64.93      4.95
-## 102           Macedonia, FYR 1960           120.00           60.85      3.72
-## 103               Madagascar 1960           112.00           41.96      7.30
-## 104                   Malawi 1960           218.20           38.51      6.91
-## 105                 Malaysia 1960            67.40           59.89      6.19
-## 106                 Maldives 1960               NA           38.07      7.02
-## 107                     Mali 1960           237.40           29.61      6.70
-## 108                    Malta 1960            36.40           68.32      3.53
-## 109               Mauritania 1960           135.00           43.91      6.78
-## 110                Mauritius 1960            67.80           58.74      6.17
-## 111                   Mexico 1960           100.60           57.34      6.78
-##     population          gdp continent                    region
-## 1      1636054           NA    Europe           Southern Europe
-## 2     11124892  13828152297    Africa           Northern Africa
-## 3      5270844           NA    Africa             Middle Africa
-## 4        54681           NA  Americas                 Caribbean
-## 5     20619075 108322326649  Americas             South America
-## 6      1867396           NA      Asia              Western Asia
-## 7        54208           NA  Americas                 Caribbean
-## 8     10292328  96677859364   Oceania Australia and New Zealand
-## 9      7065525  52392699681    Europe            Western Europe
-## 10     3897889           NA      Asia              Western Asia
-## 11      109526   1306269490  Americas                 Caribbean
-## 12      162501           NA      Asia              Western Asia
-## 13    48200702  12767231590      Asia             Southern Asia
-## 14      230934    784120376  Americas                 Caribbean
-## 15     8190027           NA    Europe            Eastern Europe
-## 16     9140563  68236665814    Europe            Western Europe
-## 17       92068     86532304  Americas           Central America
-## 18     2431620    621797131    Africa            Western Africa
-## 19      224108           NA      Asia             Southern Asia
-## 20     3693451   3001815692  Americas             South America
-## 21     3214520           NA    Europe           Southern Europe
-## 22      524029    124460933    Africa           Southern Africa
-## 23    72493585 105343379555  Americas             South America
-## 24       81825           NA      Asia        South-Eastern Asia
-## 25     7866472           NA    Europe            Eastern Europe
-## 26     4829291    596612183    Africa            Western Africa
-## 27     2786740    341126765    Africa            Eastern Africa
-## 28     5722370           NA      Asia        South-Eastern Asia
-## 29     5361367   2537944080    Africa             Middle Africa
-## 30    17909232 167894860728  Americas          Northern America
-## 31      202316           NA    Africa            Western Africa
-## 32     1503501    534982718    Africa             Middle Africa
-## 33     3002596    750173439    Africa             Middle Africa
-## 34     7695692  14087170195  Americas             South America
-## 35   644450173  70348527260      Asia              Eastern Asia
-## 36    16480384  19017657851  Americas             South America
-## 37      188732           NA    Africa            Eastern Africa
-## 38    15248246   4992962083    Africa             Middle Africa
-## 39     1013581    626127041    Africa             Middle Africa
-## 40     1333042   2398494445  Americas           Central America
-## 41     3474724   2003623491    Africa            Western Africa
-## 42     4192634           NA    Europe           Southern Europe
-## 43     7141129           NA  Americas                 Caribbean
-## 44      572929           NA      Asia              Western Asia
-## 45     9578587           NA    Europe            Eastern Europe
-## 46     4580708  52164745342    Europe           Northern Europe
-## 47       83636           NA    Africa            Eastern Africa
-## 48     3294039   3019307866  Americas                 Caribbean
-## 49     4545548   3641530019  Americas             South America
-## 50    27072397  12008501551    Africa           Northern Africa
-## 51     2762897   4017741905  Americas           Central America
-## 52      252115           NA    Africa             Middle Africa
-## 53     1407631           NA    Africa            Eastern Africa
-## 54     1216831           NA    Europe           Northern Europe
-## 55    22151218           NA    Africa            Eastern Africa
-## 56      393383    437079701   Oceania                 Melanesia
-## 57     4430228  32363088296    Europe           Northern Europe
-## 58    45865699 349778187326    Europe            Western Europe
-## 59       78083           NA   Oceania                 Polynesia
-## 60      499189    887289809    Africa             Middle Africa
-## 61      367929           NA    Africa            Western Africa
-## 62     4159769           NA      Asia              Western Asia
-## 63    73179665           NA    Europe            Western Europe
-## 64     6652285   1902005320    Africa            Western Africa
-## 65     8311386  28208389534    Europe           Southern Europe
-## 66       31238           NA  Americas          Northern America
-## 67       89861           NA  Americas                 Caribbean
-## 68     4127555   3989089865  Americas           Central America
-## 69     3577413           NA    Africa            Western Africa
-## 70      616407           NA    Africa            Western Africa
-## 71      564222    385886207  Americas             South America
-## 72     3866160           NA  Americas                 Caribbean
-## 73     2002333   1502038539  Americas           Central America
-## 74     3075752           NA      Asia              Eastern Asia
-## 75    10001270  10486859064    Europe            Eastern Europe
-## 76      175520   1775037087    Europe           Northern Europe
-## 77   449661874  81042654922      Asia             Southern Asia
-## 78    87792512  18448917543      Asia        South-Eastern Asia
-## 79    21906905           NA      Asia             Southern Asia
-## 80     7289759           NA      Asia              Western Asia
-## 81     2819059           NA    Europe           Northern Europe
-## 82     2089891  12313161088      Asia              Western Asia
-## 83    49714962 293540646267    Europe           Southern Europe
-## 84     1630914           NA  Americas                 Caribbean
-## 85    92500754 719165142029      Asia              Eastern Asia
-## 86      888632           NA      Asia              Western Asia
-## 87     9995997           NA      Asia              Central Asia
-## 88     8105440   2116484537    Africa            Eastern Africa
-## 89       41234           NA   Oceania                Micronesia
-## 90    25074028  28928298962      Asia              Eastern Asia
-## 91      261962           NA      Asia              Western Asia
-## 92     2172500           NA      Asia              Central Asia
-## 93     2119944           NA      Asia        South-Eastern Asia
-## 94     2132368           NA    Europe           Northern Europe
-## 95     1804927           NA      Asia              Western Asia
-## 96      851412    112602724    Africa           Southern Africa
-## 97     1120314    678395865    Africa            Western Africa
-## 98     1434576           NA    Africa           Northern Africa
-## 99     2770737           NA    Europe           Northern Europe
-## 100     314586   4302303281    Europe            Western Europe
-## 101     171456           NA      Asia              Eastern Asia
-## 102    1488664           NA    Europe           Southern Europe
-## 103    5099371   2087989940    Africa            Eastern Africa
-## 104    3618604    347712093    Africa            Eastern Africa
-## 105    8160975   6631037036      Asia        South-Eastern Asia
-## 106      89875           NA      Asia             Southern Asia
-## 107    5263730           NA    Africa            Western Africa
-## 108     312788           NA    Europe           Southern Europe
-## 109     858170    319353267    Africa            Western Africa
-## 110     660023           NA    Africa            Eastern Africa
-## 111   38174114  94354817785  Americas           Central America
+<pre><code>##                      country year infant_mortality life_expectancy
+## 1                    Albania 1960           115.40           62.87
+## 2                    Algeria 1960           148.20           47.50
+## 3                     Angola 1960           208.00           35.98
+## 4        Antigua and Barbuda 1960               NA           62.97
+## 5                  Argentina 1960            59.87           65.39
+## 6                    Armenia 1960               NA           66.86
+## 7                      Aruba 1960               NA           65.66
+## 8                  Australia 1960            20.30           70.87
+## 9                    Austria 1960            37.30           68.75
+## 10                Azerbaijan 1960               NA           61.33
+## 11                   Bahamas 1960            51.00           62.00
+## 12                   Bahrain 1960           134.50           51.64
+## 13                Bangladesh 1960           176.30           46.20
+## 14                  Barbados 1960            69.50           61.80
+## 15                   Belarus 1960               NA           71.59
+## 16                   Belgium 1960            29.50           69.59
+## 17                    Belize 1960               NA           60.08
+## 18                     Benin 1960           186.90           38.29
+## 19                    Bhutan 1960           175.00           35.94
+## 20                   Bolivia 1960           173.40           43.77
+## 21    Bosnia and Herzegovina 1960           105.00           62.56
+## 22                  Botswana 1960           115.50           50.34
+## 23                    Brazil 1960           129.40           55.27
+## 24                    Brunei 1960            63.00           62.52
+## 25                  Bulgaria 1960            49.00           69.22
+## 26              Burkina Faso 1960           161.30           35.21
+## 27                   Burundi 1960           145.10           40.58
+## 28                  Cambodia 1960               NA           42.29
+## 29                  Cameroon 1960           166.90           43.46
+## 30                    Canada 1960            27.80           71.00
+## 31                Cape Verde 1960               NA           50.12
+## 32  Central African Republic 1960           165.50           37.43
+## 33                      Chad 1960               NA           40.95
+## 34                     Chile 1960           127.60           56.85
+## 35                     China 1960           190.00           30.53
+## 36                  Colombia 1960            89.30           58.03
+## 37                   Comoros 1960           200.00           44.04
+## 38          Congo, Dem. Rep. 1960           174.00           43.90
+## 39               Congo, Rep. 1960           110.60           48.25
+## 40                Costa Rica 1960            86.54           61.97
+## 41             Cote d&#39;Ivoire 1960           208.40           38.00
+## 42                   Croatia 1960            70.00           64.85
+## 43                      Cuba 1960            37.00           63.85
+## 44                    Cyprus 1960            30.00           69.72
+## 45            Czech Republic 1960            22.00           70.58
+## 46                   Denmark 1960            21.30           72.28
+## 47                  Djibouti 1960               NA           45.77
+## 48        Dominican Republic 1960           102.10           53.37
+## 49                   Ecuador 1960           121.40           54.09
+## 50                     Egypt 1960           209.60           48.31
+## 51               El Salvador 1960           126.20           52.02
+## 52         Equatorial Guinea 1960               NA           37.69
+## 53                   Eritrea 1960               NA           39.03
+## 54                   Estonia 1960            40.00           69.42
+## 55                  Ethiopia 1960           162.00           37.72
+## 56                      Fiji 1960            54.00           55.70
+## 57                   Finland 1960            21.90           69.03
+## 58                    France 1960            23.70           70.49
+## 59          French Polynesia 1960               NA           56.28
+## 60                     Gabon 1960               NA           38.83
+## 61                    Gambia 1960           148.40           35.70
+## 62                   Georgia 1960               NA           63.50
+## 63                   Germany 1960            34.00           69.26
+## 64                     Ghana 1960           125.10           46.34
+## 65                    Greece 1960            48.30           68.41
+## 66                 Greenland 1960               NA           61.49
+## 67                   Grenada 1960               NA           60.59
+## 68                 Guatemala 1960           146.00           46.51
+## 69                    Guinea 1960               NA           35.71
+## 70             Guinea-Bissau 1960               NA           43.14
+## 71                    Guyana 1960            67.70           59.08
+## 72                     Haiti 1960           194.80           42.10
+## 73                  Honduras 1960           140.90           47.71
+## 74          Hong Kong, China 1960               NA           67.45
+## 75                   Hungary 1960            53.40           68.13
+## 76                   Iceland 1960            17.50           74.22
+## 77                     India 1960           165.10           41.26
+## 78                 Indonesia 1960           148.40           45.01
+## 79                      Iran 1960           191.61           46.00
+## 80                      Iraq 1960           131.70           46.96
+## 81                   Ireland 1960            30.40           70.76
+## 82                    Israel 1960            32.00           68.55
+## 83                     Italy 1960            44.20           69.19
+## 84                   Jamaica 1960            62.00           65.91
+## 85                     Japan 1960            30.40           67.78
+## 86                    Jordan 1960           107.50           53.30
+## 87                Kazakhstan 1960               NA           58.91
+## 88                     Kenya 1960           118.60           47.42
+## 89                  Kiribati 1960               NA           45.84
+## 90               South Korea 1960            80.20           53.02
+## 91                    Kuwait 1960           101.60           62.15
+## 92           Kyrgyz Republic 1960               NA           56.09
+## 93                       Lao 1960           155.00           42.13
+## 94                    Latvia 1960            35.00           70.37
+## 95                   Lebanon 1960            57.60           62.90
+## 96                   Lesotho 1960           143.30           47.02
+## 97                   Liberia 1960           212.00           35.24
+## 98                     Libya 1960           164.50           44.59
+## 99                 Lithuania 1960            52.00           70.33
+## 100               Luxembourg 1960            33.00           68.99
+## 101             Macao, China 1960               NA           64.93
+## 102           Macedonia, FYR 1960           120.00           60.85
+## 103               Madagascar 1960           112.00           41.96
+## 104                   Malawi 1960           218.20           38.51
+## 105                 Malaysia 1960            67.40           59.89
+## 106                 Maldives 1960               NA           38.07
+## 107                     Mali 1960           237.40           29.61
+## 108                    Malta 1960            36.40           68.32
+## 109               Mauritania 1960           135.00           43.91
+## 110                Mauritius 1960            67.80           58.74
+## 111                   Mexico 1960           100.60           57.34
+##     fertility population          gdp continent                    region
+## 1        6.19    1636054           NA    Europe           Southern Europe
+## 2        7.65   11124892  13828152297    Africa           Northern Africa
+## 3        7.32    5270844           NA    Africa             Middle Africa
+## 4        4.43      54681           NA  Americas                 Caribbean
+## 5        3.11   20619075 108322326649  Americas             South America
+## 6        4.55    1867396           NA      Asia              Western Asia
+## 7        4.82      54208           NA  Americas                 Caribbean
+## 8        3.45   10292328  96677859364   Oceania Australia and New Zealand
+## 9        2.70    7065525  52392699681    Europe            Western Europe
+## 10       5.57    3897889           NA      Asia              Western Asia
+## 11       4.50     109526   1306269490  Americas                 Caribbean
+## 12       7.09     162501           NA      Asia              Western Asia
+## 13       6.73   48200702  12767231590      Asia             Southern Asia
+## 14       4.33     230934    784120376  Americas                 Caribbean
+## 15       2.74    8190027           NA    Europe            Eastern Europe
+## 16       2.60    9140563  68236665814    Europe            Western Europe
+## 17       6.50      92068     86532304  Americas           Central America
+## 18       6.28    2431620    621797131    Africa            Western Africa
+## 19       6.67     224108           NA      Asia             Southern Asia
+## 20       6.70    3693451   3001815692  Americas             South America
+## 21       4.05    3214520           NA    Europe           Southern Europe
+## 22       6.62     524029    124460933    Africa           Southern Africa
+## 23       6.21   72493585 105343379555  Americas             South America
+## 24       6.49      81825           NA      Asia        South-Eastern Asia
+## 25       2.25    7866472           NA    Europe            Eastern Europe
+## 26       6.29    4829291    596612183    Africa            Western Africa
+## 27       6.95    2786740    341126765    Africa            Eastern Africa
+## 28       6.97    5722370           NA      Asia        South-Eastern Asia
+## 29       5.65    5361367   2537944080    Africa             Middle Africa
+## 30       3.91   17909232 167894860728  Americas          Northern America
+## 31       6.89     202316           NA    Africa            Western Africa
+## 32       5.84    1503501    534982718    Africa             Middle Africa
+## 33       6.25    3002596    750173439    Africa             Middle Africa
+## 34       5.58    7695692  14087170195  Americas             South America
+## 35       3.99  644450173  70348527260      Asia              Eastern Asia
+## 36       6.81   16480384  19017657851  Americas             South America
+## 37       6.79     188732           NA    Africa            Eastern Africa
+## 38       6.00   15248246   4992962083    Africa             Middle Africa
+## 39       5.88    1013581    626127041    Africa             Middle Africa
+## 40       7.31    1333042   2398494445  Americas           Central America
+## 41       7.35    3474724   2003623491    Africa            Western Africa
+## 42       2.33    4192634           NA    Europe           Southern Europe
+## 43       4.18    7141129           NA  Americas                 Caribbean
+## 44       3.50     572929           NA      Asia              Western Asia
+## 45       2.30    9578587           NA    Europe            Eastern Europe
+## 46       2.54    4580708  52164745342    Europe           Northern Europe
+## 47       6.46      83636           NA    Africa            Eastern Africa
+## 48       7.56    3294039   3019307866  Americas                 Caribbean
+## 49       6.69    4545548   3641530019  Americas             South America
+## 50       6.63   27072397  12008501551    Africa           Northern Africa
+## 51       6.73    2762897   4017741905  Americas           Central America
+## 52       5.51     252115           NA    Africa             Middle Africa
+## 53       6.90    1407631           NA    Africa            Eastern Africa
+## 54       1.95    1216831           NA    Europe           Northern Europe
+## 55       6.88   22151218           NA    Africa            Eastern Africa
+## 56       6.46     393383    437079701   Oceania                 Melanesia
+## 57       2.71    4430228  32363088296    Europe           Northern Europe
+## 58       2.77   45865699 349778187326    Europe            Western Europe
+## 59       5.66      78083           NA   Oceania                 Polynesia
+## 60       4.38     499189    887289809    Africa             Middle Africa
+## 61       5.57     367929           NA    Africa            Western Africa
+## 62       2.96    4159769           NA      Asia              Western Asia
+## 63       2.41   73179665           NA    Europe            Western Europe
+## 64       6.75    6652285   1902005320    Africa            Western Africa
+## 65       2.22    8311386  28208389534    Europe           Southern Europe
+## 66       7.25      31238           NA  Americas          Northern America
+## 67       6.74      89861           NA  Americas                 Caribbean
+## 68       6.53    4127555   3989089865  Americas           Central America
+## 69       6.10    3577413           NA    Africa            Western Africa
+## 70       5.83     616407           NA    Africa            Western Africa
+## 71       5.67     564222    385886207  Americas             South America
+## 72       6.32    3866160           NA  Americas                 Caribbean
+## 73       7.46    2002333   1502038539  Americas           Central America
+## 74       5.16    3075752           NA      Asia              Eastern Asia
+## 75       2.05   10001270  10486859064    Europe            Eastern Europe
+## 76       4.13     175520   1775037087    Europe           Northern Europe
+## 77       5.87  449661874  81042654922      Asia             Southern Asia
+## 78       5.67   87792512  18448917543      Asia        South-Eastern Asia
+## 79       6.93   21906905           NA      Asia             Southern Asia
+## 80       6.25    7289759           NA      Asia              Western Asia
+## 81       3.86    2819059           NA    Europe           Northern Europe
+## 82       3.84    2089891  12313161088      Asia              Western Asia
+## 83       2.37   49714962 293540646267    Europe           Southern Europe
+## 84       5.42    1630914           NA  Americas                 Caribbean
+## 85       2.00   92500754 719165142029      Asia              Eastern Asia
+## 86       7.69     888632           NA      Asia              Western Asia
+## 87       4.56    9995997           NA      Asia              Central Asia
+## 88       7.95    8105440   2116484537    Africa            Eastern Africa
+## 89       6.95      41234           NA   Oceania                Micronesia
+## 90       6.16   25074028  28928298962      Asia              Eastern Asia
+## 91       7.25     261962           NA      Asia              Western Asia
+## 92       5.17    2172500           NA      Asia              Central Asia
+## 93       5.96    2119944           NA      Asia        South-Eastern Asia
+## 94       1.90    2132368           NA    Europe           Northern Europe
+## 95       5.74    1804927           NA      Asia              Western Asia
+## 96       5.84     851412    112602724    Africa           Southern Africa
+## 97       6.41    1120314    678395865    Africa            Western Africa
+## 98       7.54    1434576           NA    Africa           Northern Africa
+## 99       2.55    2770737           NA    Europe           Northern Europe
+## 100      2.35     314586   4302303281    Europe            Western Europe
+## 101      4.95     171456           NA      Asia              Eastern Asia
+## 102      3.72    1488664           NA    Europe           Southern Europe
+## 103      7.30    5099371   2087989940    Africa            Eastern Africa
+## 104      6.91    3618604    347712093    Africa            Eastern Africa
+## 105      6.19    8160975   6631037036      Asia        South-Eastern Asia
+## 106      7.02      89875           NA      Asia             Southern Asia
+## 107      6.70    5263730           NA    Africa            Western Africa
+## 108      3.53     312788           NA    Europe           Southern Europe
+## 109      6.78     858170    319353267    Africa            Western Africa
+## 110      6.17     660023           NA    Africa            Eastern Africa
+## 111      6.78   38174114  94354817785  Americas           Central America
 ##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 10434 rows ]</code></pre>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -583,6 +661,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
