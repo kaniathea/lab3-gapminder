@@ -1,0 +1,43 @@
+---
+title: "Infant Mortality"
+author: "Kania Thea Pradipta"
+date: "2/27/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Infant Mortality v Per Capita GDP
+
+```{r include=FALSE}
+library(dslabs)
+library(tidyverse)
+gapminder
+```
+
+```{r, include=FALSE}
+gap2011 <- gapminder %>%
+  as_tibble() %>%
+  filter(year == 2011)
+```
+
+```{r}
+gap2011 %>%
+  ggplot(aes(x=infant_mortality, y=gdp/population, size=population, color=continent)) +
+  geom_point() +
+  xlab("Infant Mortality") +
+  ylab("Per Capita GDP")
+```
+
+### Infant Mortality v Fertility
+
+```{r}
+gap2011 %>%
+  ggplot(aes(x=infant_mortality, y=fertility)) +
+  geom_point(mapping = aes(color=continent, size=population)) +
+  geom_smooth() +
+  xlab("Infant Mortality") +
+  ylab("Fertility")
+```

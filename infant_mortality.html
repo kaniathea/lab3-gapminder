@@ -12,7 +12,7 @@
 <meta name="author" content="Kania Thea Pradipta" />
 
 
-<title>Fertility</title>
+<title>Infant Mortality</title>
 
 <script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -310,29 +310,35 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Fertility</h1>
+<h1 class="title toc-ignore">Infant Mortality</h1>
 <h4 class="author">Kania Thea Pradipta</h4>
-<h4 class="date">2/26/2021</h4>
+<h4 class="date">2/27/2021</h4>
 
 </div>
 
 
-<div id="fertility-v-per-capita-gdp" class="section level3">
-<h3>Fertility v Per Capita GDP</h3>
+<div id="infant-mortality-v-per-capita-gdp" class="section level3">
+<h3>Infant Mortality v Per Capita GDP</h3>
 <pre class="r"><code>gap2011 %&gt;%
-  ggplot(aes(x=fertility, y=gdp/population, size=population, color=continent)) +
+  ggplot(aes(x=infant_mortality, y=gdp/population, size=population, color=continent)) +
   geom_point() +
-  xlab(&quot;Fertility Rate&quot;) +
+  xlab(&quot;Infant Mortality&quot;) +
   ylab(&quot;Per Capita GDP&quot;)</code></pre>
-<pre><code>## Warning: Removed 17 rows containing missing values (geom_point).</code></pre>
-<p><img src="fertility_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre><code>## Warning: Removed 19 rows containing missing values (geom_point).</code></pre>
+<p><img src="infant_mortality_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
-<div id="fertility-data-distribution" class="section level3">
-<h3>Fertility Data Distribution</h3>
-<pre class="r"><code>ggplot(data = gap2011, mapping = aes(x=fertility)) +
-  geom_histogram(aes(x=fertility))</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="fertility_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div id="infant-mortality-v-fertility" class="section level3">
+<h3>Infant Mortality v Fertility</h3>
+<pre class="r"><code>gap2011 %&gt;%
+  ggplot(aes(x=infant_mortality, y=fertility)) +
+  geom_point(mapping = aes(color=continent, size=population)) +
+  geom_smooth() +
+  xlab(&quot;Infant Mortality&quot;) +
+  ylab(&quot;Fertility&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 7 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 7 rows containing missing values (geom_point).</code></pre>
+<p><img src="infant_mortality_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 
 

@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Fertility Data Explore
+### Fertility v Per Capita GDP
 
 ```{r include=FALSE}
 library(dslabs)
@@ -30,6 +30,8 @@ gap2011 %>%
   xlab("Fertility Rate") +
   ylab("Per Capita GDP")
 ```
+
+### Fertility Data Distribution
 
 ```{r}
 ggplot(data = gap2011, mapping = aes(x=fertility)) +
